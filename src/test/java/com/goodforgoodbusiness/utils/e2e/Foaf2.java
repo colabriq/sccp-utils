@@ -1,13 +1,17 @@
-package com.goodforgoodbusiness.rdfjava.integration;
+package com.goodforgoodbusiness.utils.e2e;
 
-import com.goodforgoodbusiness.rdfjava.dht.DHTDatasetFactory;
-import com.goodforgoodbusiness.rdfjava.dht.DHTRDFRunner;
+import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
+import static com.google.inject.Guice.createInjector;
+
+import com.goodforgoodbusiness.rdfjava.RDFDataModule;
+import com.goodforgoodbusiness.rdfjava.rdf.RDFRunner;
 
 public class Foaf2 {
 	public static void main(String[] args) throws Exception {
 		// run with separate runners, as if the system was restarted.
 		
-		var runner1 = new DHTRDFRunner("data", new DHTDatasetFactory());
+		var injector1 = createInjector(new RDFDataModule(loadConfig(Foaf1.class, "data.properties")));
+		var runner1 = injector1.getInstance(RDFRunner.class);
 		
 		runner1.update(
 			"PREFIX foaf: <http://xmlns.com/foaf/0.1/>                    \n" + 
@@ -17,7 +21,8 @@ public class Foaf2 {
 			"}                                                            \n" 
 		);
 		
-		var runner2 = new DHTRDFRunner("data", new DHTDatasetFactory());
+		var injector2 = createInjector(new RDFDataModule(loadConfig(Foaf1.class, "data.properties")));
+		var runner2 = injector2.getInstance(RDFRunner.class);
 		
 		runner2.query(
 			"SELECT ?name                                                           \n" + 
@@ -28,7 +33,8 @@ public class Foaf2 {
 			System.out
 		);
 		
-		var runner3 = new DHTRDFRunner("data", new DHTDatasetFactory());
+		var injector3 = createInjector(new RDFDataModule(loadConfig(Foaf1.class, "data.properties")));
+		var runner3 = injector3.getInstance(RDFRunner.class);
 		
 		runner3.update(
 			"PREFIX foaf:  <http://xmlns.com/foaf/0.1/>  \n" + 
@@ -43,7 +49,8 @@ public class Foaf2 {
 			"}                                           \n"
 		);
 
-		var runner4 = new DHTRDFRunner("data", new DHTDatasetFactory());
+		var injector4 = createInjector(new RDFDataModule(loadConfig(Foaf1.class, "data.properties")));
+		var runner4 = injector4.getInstance(RDFRunner.class);
 		
 		runner4.query(
 			"SELECT ?name                                                           \n" + 

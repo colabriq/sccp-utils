@@ -1,11 +1,12 @@
-package com.goodforgoodbusiness.rdfjava.integration;
+package com.goodforgoodbusiness.utils.e2e;
+
+import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
+import static com.google.inject.Guice.createInjector;
 
 import java.io.File;
 
-import org.apache.jena.query.DatasetFactory;
-import org.apache.jena.sparql.core.DatasetGraphFactory;
-
-import com.goodforgoodbusiness.rdfjava.RDFRunner;
+import com.goodforgoodbusiness.rdfjava.RDFSchemaModule;
+import com.goodforgoodbusiness.rdfjava.rdf.RDFRunner;
 import com.goodforgoodbusiness.shared.FileLoader;
 
 public class Beef {
@@ -34,11 +35,10 @@ public class Beef {
 		    "}";
 	
 	public static void main(String[] args) throws Exception {
-		var dataset = DatasetFactory.create(DatasetGraphFactory.createMem());
-		var runner = new RDFRunner("schema", dataset);
+		var injector = createInjector(new RDFSchemaModule(loadConfig(Beef.class, "data.properties")));
+		var runner = injector.getInstance(RDFRunner.class);
 		
 		FileLoader.scan(new File(BEEF_CLAIM_PATH), runner.fileConsumer("TURTLE"));
-		
 		System.out.println(runner.query(COW_QUERY, "application/xml"));
 	}
 }
