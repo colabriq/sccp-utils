@@ -3,8 +3,8 @@ package com.goodforgoodbusiness.utils.e2e;
 import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
 import static com.google.inject.Guice.createInjector;
 
-import com.goodforgoodbusiness.rdfjava.RDFDataModule;
-import com.goodforgoodbusiness.rdfjava.rdf.RDFRunner;
+import com.goodforgoodbusiness.endpoint.RDFDataModule;
+import com.goodforgoodbusiness.endpoint.rdf.RDFRunner;
 
 public class Foaf2 {
 	public static void main(String[] args) throws Exception {

@@ -5,8 +5,8 @@ import static com.google.inject.Guice.createInjector;
 
 import java.io.File;
 
-import com.goodforgoodbusiness.rdfjava.RDFSchemaModule;
-import com.goodforgoodbusiness.rdfjava.rdf.RDFRunner;
+import com.goodforgoodbusiness.endpoint.RDFSchemaModule;
+import com.goodforgoodbusiness.endpoint.rdf.RDFRunner;
 import com.goodforgoodbusiness.shared.FileLoader;
 
 public class Beef {
@@ -38,7 +38,7 @@ public class Beef {
 		var injector = createInjector(new RDFSchemaModule(loadConfig(Beef.class, "data.properties")));
 		var runner = injector.getInstance(RDFRunner.class);
 		
-		FileLoader.scan(new File(BEEF_CLAIM_PATH), runner.fileConsumer("TURTLE"));
+		FileLoader.scan(new File(BEEF_CLAIM_PATH), runner.fileConsumer());
 		System.out.println(runner.query(COW_QUERY, "application/xml"));
 	}
 }
