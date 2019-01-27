@@ -3,15 +3,11 @@ package com.goodforgoodbusiness.utils.e2e.beef;
 import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
 import static com.google.inject.Guice.createInjector;
 
-import java.io.File;
-
-import com.goodforgoodbusiness.endpoint.RDFSchemaModule;
+import com.goodforgoodbusiness.endpoint.EndpointModule;
+import com.goodforgoodbusiness.endpoint.rdf.RDFPreloader;
 import com.goodforgoodbusiness.endpoint.rdf.RDFRunner;
-import com.goodforgoodbusiness.shared.FileLoader;
 
 public class Beef {
-	private static final String BEEF_CLAIM_PATH = "/Users/ijmad/Desktop/sccp/tb_example/generated_claims";
-	
 	private static final String COW_QUERY = 
 			"PREFIX com: <https://schemas.goodforgoodbusiness.com/common-operating-model/lite/>" +
 			"SELECT ?buyerRef ?quantity ?unitPrice ?shipmentRef ?ain ?vaccine WHERE {" + 
@@ -35,10 +31,12 @@ public class Beef {
 		    "}";
 	
 	public static void main(String[] args) throws Exception {
-		var injector = createInjector(new RDFSchemaModule(loadConfig(Beef.class, "data.properties")));
-		var runner = injector.getInstance(RDFRunner.class);
+		var injector = createInjector(new EndpointModule(loadConfig(Beef.class, "beef.properties")));
+		injector.getInstance(RDFPreloader.class).preload();
 		
-		FileLoader.scan(new File(BEEF_CLAIM_PATH), runner.fileConsumer());
-		System.out.println(runner.query(COW_QUERY, "application/xml"));
+		System.out.println(
+			injector.getInstance(RDFRunner.class)
+				.query(COW_QUERY, "application/xml")
+		);
 	}
 }

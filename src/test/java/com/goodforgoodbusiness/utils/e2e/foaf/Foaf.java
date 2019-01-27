@@ -9,7 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 
-import com.goodforgoodbusiness.endpoint.RDFDataModule;
+import com.goodforgoodbusiness.endpoint.EndpointModule;
 import com.goodforgoodbusiness.endpoint.rdf.RDFRunner;
 import com.goodforgoodbusiness.shared.URIModifier;
 import com.goodforgoodbusiness.webapp.ContentType;
@@ -22,7 +22,7 @@ public class Foaf {
 	public static String ENDPOINT_B = "data-b.properties";
 	
 	public static RDFRunner newRunner(String configFile) throws Exception {
-		var injector1 = createInjector(new RDFDataModule(loadConfig(Foaf.class, configFile)));
+		var injector1 = createInjector(new EndpointModule(loadConfig(Foaf.class, configFile)));
 		return injector1.getInstance(RDFRunner.class);
 	}
 	
