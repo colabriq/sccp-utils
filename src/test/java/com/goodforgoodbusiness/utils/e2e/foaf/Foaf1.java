@@ -1,15 +1,11 @@
-package com.goodforgoodbusiness.utils.e2e;
+package com.goodforgoodbusiness.utils.e2e.foaf;
 
-import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
-import static com.google.inject.Guice.createInjector;
-
-import com.goodforgoodbusiness.endpoint.RDFDataModule;
-import com.goodforgoodbusiness.endpoint.rdf.RDFRunner;
+import static com.goodforgoodbusiness.utils.e2e.foaf.Foaf.A;
+import static com.goodforgoodbusiness.utils.e2e.foaf.Foaf.newRunner;
 
 public class Foaf1 {
 	public static void main(String[] args) throws Exception {
-		var injector = createInjector(new RDFDataModule(loadConfig(Foaf1.class, "data.properties")));
-		var runner = injector.getInstance(RDFRunner.class);
+		var runner = newRunner(A);
 		
 		runner.update(
 			"PREFIX foaf: <http://xmlns.com/foaf/0.1/>                    \n" + 

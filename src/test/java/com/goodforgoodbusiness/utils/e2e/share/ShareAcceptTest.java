@@ -1,4 +1,4 @@
-package com.goodforgoodbusiness.utils.e2e;
+package com.goodforgoodbusiness.utils.e2e.share;
 
 import java.net.URI;
 import java.net.http.HttpClient;

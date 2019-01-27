@@ -1,4 +1,4 @@
-package com.goodforgoodbusiness.utils.e2e;
+package com.goodforgoodbusiness.utils.e2e.share;
 
 import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
 
@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 
+import com.goodforgoodbusiness.utils.e2e.foaf.Foaf1;
 import com.goodforgoodbusiness.webapp.ContentType;
 
 public class ShareKeyExchangeTest {
