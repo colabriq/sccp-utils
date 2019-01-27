@@ -18,13 +18,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.goodforgoodbusiness</groupId>
-			<artifactId>shared</artifactId>
+			<artifactId>dhtengine</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
-		
+	
 		<dependency>
 			<groupId>org.goodforgoodbusiness</groupId>
-			<artifactId>dhtengine</artifactId>
+			<artifactId>shared</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		
