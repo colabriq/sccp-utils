@@ -1,4 +1,4 @@
-package com.goodforgoodbusiness.utils.e2e;
+package com.goodforgoodbusiness.utils.e2e.beef;
 
 import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
 import static com.google.inject.Guice.createInjector;

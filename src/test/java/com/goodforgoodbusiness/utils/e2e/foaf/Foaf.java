@@ -15,8 +15,11 @@ import com.goodforgoodbusiness.shared.URIModifier;
 import com.goodforgoodbusiness.webapp.ContentType;
 
 public class Foaf {
-	public static String A = "data-a.properties";
-	public static String B = "data-b.properties";
+	public static String ENGINE_A = "engine-a.properties";
+	public static String ENDPOINT_A = "data-a.properties";
+	
+	public static String ENGINE_B = "engine-b.properties";
+	public static String ENDPOINT_B = "data-b.properties";
 	
 	public static RDFRunner newRunner(String configFile) throws Exception {
 		var injector1 = createInjector(new RDFDataModule(loadConfig(Foaf.class, configFile)));

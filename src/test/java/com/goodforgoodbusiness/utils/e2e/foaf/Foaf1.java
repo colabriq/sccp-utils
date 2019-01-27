@@ -1,11 +1,11 @@
 package com.goodforgoodbusiness.utils.e2e.foaf;
 
-import static com.goodforgoodbusiness.utils.e2e.foaf.Foaf.A;
+import static com.goodforgoodbusiness.utils.e2e.foaf.Foaf.ENDPOINT_A;
 import static com.goodforgoodbusiness.utils.e2e.foaf.Foaf.newRunner;
 
 public class Foaf1 {
 	public static void main(String[] args) throws Exception {
-		var runner = newRunner(A);
+		var runner = newRunner(ENDPOINT_A);
 		
 		runner.update(
 			"PREFIX foaf: <http://xmlns.com/foaf/0.1/>                    \n" + 
