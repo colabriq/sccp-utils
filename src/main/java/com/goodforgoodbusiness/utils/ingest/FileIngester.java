@@ -86,7 +86,11 @@ public class FileIngester {
 		// translate files in to submitted claim IDs
 		var linkMap = new HashMap<String, String>();
 		
-		for (var next : TreeSort.sort(foundFiles)) {
+		// sort the files and ingest them in turn
+		var sorted = TreeSort.sort(foundFiles);
+		int i = 0;
+		
+		for (var next : sorted) {
 			// actor determines endpoint
 			var actor = next.getFile().getName().split("_")[1];
 			var endpoint = new URI("http://localhost:8001"); //ENDPOINTS.get(actor);
@@ -103,10 +107,11 @@ public class FileIngester {
 				.map(link -> new Link(linkMap.get(link.getFilename()), link.getRel()))
 			;
 			
-			System.out.println(actor + " -> " + endpoint);
+			System.out.print( "(" + i++ + "/" + sorted.size() + ") " );
+			System.out.print("Ingesting " + next.getFile().getName() + " to " + endpoint);
 			
 			var result = new RDFClient(endpoint).upload(next.getFile(), links);
-			System.out.println(result);
+			System.out.println(" -> " + result);
 			
 			var jsonObject = jsonParser.parse(result).getAsJsonObject();
 			linkMap.put(next.getFile().getName(), jsonObject.get("id").getAsString());
