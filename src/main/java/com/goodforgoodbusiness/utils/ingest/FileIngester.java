@@ -93,7 +93,7 @@ public class FileIngester {
 		for (var next : sorted) {
 			// actor determines endpoint
 			var actor = next.getFile().getName().split("_")[1];
-			var endpoint = new URI("http://localhost:8001"); //ENDPOINTS.get(actor);
+			var endpoint = new URI("http://localhost:8081"); //ENDPOINTS.get(actor);
 			
 			var unmappedLink = next.getPredecessors()
 				.filter(not(linkMap::containsKey))
@@ -107,7 +107,7 @@ public class FileIngester {
 				.map(link -> new Link(linkMap.get(link.getFilename()), link.getRel()))
 			;
 			
-			System.out.print( "(" + i++ + "/" + sorted.size() + ") " );
+			System.out.print( "(" + ++i + "/" + sorted.size() + ") " );
 			System.out.print("Ingesting " + next.getFile().getName() + " to " + endpoint);
 			
 			var result = new RDFClient(endpoint).upload(next.getFile(), links);
