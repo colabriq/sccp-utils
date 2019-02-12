@@ -26,6 +26,8 @@ public class ShareClient {
 			.header("Content-Type", ContentType.json.getContentTypeString())
 			.GET()
 			.build();
+		
+		System.out.println(shareRequest.uri());
 			
 		var shareRequestResponse = httpClient.send(shareRequest, BodyHandlers.ofString());
 		

@@ -6,11 +6,11 @@ import java.util.stream.Stream;
 
 import com.goodforgoodbusiness.shared.treesort.TreeNode;
 
-class IngestableFile implements TreeNode<String> {
+class TurtleFile implements TreeNode<String> {
 	private final File file;
-	private final Set<IngestedLink> links;
+	private final Set<TurtleFileLink> links;
 	
-	IngestableFile(File file, Set<IngestedLink> predecessors) {
+	TurtleFile(File file, Set<TurtleFileLink> predecessors) {
 		this.file = file;
 		this.links = predecessors;
 	}
@@ -29,7 +29,7 @@ class IngestableFile implements TreeNode<String> {
 		return links.stream().map(link -> link.getFilename());
 	}
 	
-	public Stream<IngestedLink> getLinks() {
+	public Stream<TurtleFileLink> getLinks() {
 		return links.stream();
 	}
 	

@@ -5,6 +5,7 @@ import static java.util.function.Predicate.not;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -15,18 +16,17 @@ import com.goodforgoodbusiness.model.Link;
 import com.goodforgoodbusiness.shared.FileLoader;
 import com.goodforgoodbusiness.shared.treesort.TreeSort;
 import com.goodforgoodbusiness.utils.RDFClient;
-import com.goodforgoodbusiness.utils.ingest.beef.Actor;
 import com.google.gson.JsonParser;
 
 /**
  * Ingests a directory of files (sorting them first) and pushes them to the relevant endpoints of different actors.
  *
  */
-public class FileIngester {	
+public abstract class TurtleUploader {	
 	private static final Pattern LINK_PATTERN = Pattern.compile("^# *@link +(\\S+) +(\\S+)");
 	
-	private static Set<IngestedLink> readPredecessors(File file) {
-		var predecessors = new HashSet<IngestedLink>();
+	private static Set<TurtleFileLink> readPredecessors(File file) {
+		var predecessors = new HashSet<TurtleFileLink>();
 		
 		try (var reader = new BufferedReader(new FileReader(file))) {
 			String line;
@@ -38,7 +38,7 @@ public class FileIngester {
 						var filename = matcher.group(2);
 						var type = matcher.group(1);
 						
-						predecessors.add(new IngestedLink(filename, type));
+						predecessors.add(new TurtleFileLink(filename, type));
 					}
 					else {
 						break;
@@ -52,12 +52,20 @@ public class FileIngester {
 		
 		return predecessors;
 	}
+
+	private File rootDir;
 	
-	public static void main(String[] args) throws Exception {
+	protected TurtleUploader(File rootDir) {
+		this.rootDir = rootDir;
+	}
+	
+	protected abstract URI getEndpoint(String filename);
+	
+	public void run() throws Exception {
 		var jsonParser = new JsonParser();
 		
-		var foundFiles = new LinkedList<IngestableFile>();
-		FileLoader.scan(new File(args[0]), file -> foundFiles.add(new IngestableFile(file, readPredecessors(file))));
+		var foundFiles = new LinkedList<TurtleFile>();
+		FileLoader.scan(rootDir, file -> foundFiles.add(new TurtleFile(file, readPredecessors(file))));
 		
 		// translate files in to submitted claim IDs
 		var linkMap = new HashMap<String, String>();
@@ -67,9 +75,7 @@ public class FileIngester {
 		int i = 0;
 		
 		for (var next : sorted) {
-			// actor determines endpoint
-			var actor = next.getFile().getName().split("_")[1];
-			var endpoint = Actor.ACTORS.get(actor).endpoint;
+			var endpoint = getEndpoint(next.getFile().getName());
 			
 			var unmappedLink = next.getPredecessors()
 				.filter(not(linkMap::containsKey))

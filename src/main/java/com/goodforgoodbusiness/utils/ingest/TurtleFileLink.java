@@ -2,11 +2,11 @@ package com.goodforgoodbusiness.utils.ingest;
 
 import com.goodforgoodbusiness.model.Link.RelType;
 
-class IngestedLink {
+class TurtleFileLink {
 	private final String filename;
 	private final RelType rel;
 	
-	public IngestedLink(String filename, String rel) {
+	public TurtleFileLink(String filename, String rel) {
 		this.filename = filename;
 		this.rel = RelType.fromUri(rel);
 	}
@@ -30,8 +30,8 @@ class IngestedLink {
 			return true;
 		}
 		
-		if (o instanceof IngestedLink) {
-			return filename.equals(((IngestedLink)o).filename);
+		if (o instanceof TurtleFileLink) {
+			return filename.equals(((TurtleFileLink)o).filename);
 		}
 		
 		return false;
