@@ -1,5 +1,6 @@
 package com.goodforgoodbusiness.utils;
 
+import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
 import static com.goodforgoodbusiness.webapp.ContentType.sparql_query;
 import static com.goodforgoodbusiness.webapp.ContentType.sparql_update;
 import static java.util.stream.Collectors.joining;
@@ -24,6 +25,11 @@ import com.goodforgoodbusiness.model.Link;
 import com.goodforgoodbusiness.shared.URIModifier;
 
 public class RDFClient {
+	public static RDFClient fromConfig(Class<?> clazz, String configFile) throws Exception {
+		var config = loadConfig(clazz, configFile);
+		return new RDFClient(config.getInt("port"));
+	}
+	
 	private final HttpClient client;
 	private final URI endpoint;
 	
