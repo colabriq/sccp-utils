@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -59,7 +60,7 @@ public abstract class TurtleUploader {
 		this.rootDir = rootDir;
 	}
 	
-	protected abstract URI getEndpoint(String filename);
+	protected abstract URI getEndpoint(String filename) throws URISyntaxException;
 	
 	public void run() throws Exception {
 		var jsonParser = new JsonParser();
