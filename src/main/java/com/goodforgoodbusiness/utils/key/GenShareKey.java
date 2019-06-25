@@ -2,16 +2,19 @@ package com.goodforgoodbusiness.utils.key;
 
 import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
 
-import com.goodforgoodbusiness.kpabe.local.KPABELocalInstance;
+import com.goodforgoodbusiness.kpabe.KPABEEncryption;
+import com.goodforgoodbusiness.kpabe.KPABEKeyManager;
 
 public class GenShareKey {
 	public static void main(String[] args) throws Exception {
 		var config = loadConfig(args[0]);
 		
-		var instance = KPABELocalInstance.forKeys(
+		var keyPair = KPABEKeyManager.ofKeys(
 			config.getString("kpabe.publicKey"),
 			config.getString("kpabe.secretKey")
 		);
+		
+		var instance = KPABEEncryption.getInstance(keyPair);
 		
 		var shareKey = instance.shareKey("foo");
 		
