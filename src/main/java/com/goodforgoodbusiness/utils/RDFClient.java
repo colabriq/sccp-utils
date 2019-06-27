@@ -8,6 +8,7 @@ import static org.apache.commons.io.FilenameUtils.getExtension;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -22,6 +23,7 @@ import org.apache.http.entity.mime.content.FileBody;
 
 import com.goodforgoodbusiness.endpoint.MIMEMappings;
 import com.goodforgoodbusiness.model.Link;
+import com.goodforgoodbusiness.shared.ReaderFileBody;
 import com.goodforgoodbusiness.shared.URIModifier;
 
 public class RDFClient {
@@ -42,66 +44,113 @@ public class RDFClient {
 		this(new URI("http://localhost:" + port));
 	}
 	
-	public String query(String query) throws Exception {
-		var request = HttpRequest
-			.newBuilder(URIModifier.from(endpoint).appendPath("sparql").build())
-			.header("Content-Type", sparql_query.getContentTypeString())
-			.POST(BodyPublishers.ofString(query))
-			.build();
-		
-		var response = client.send(request, BodyHandlers.ofString());
-		if (response.statusCode() != 200) {
-			throw new Exception("Response = " + response.statusCode());
+	public String query(String query) throws RuntimeException {
+		try {
+			var request = HttpRequest
+				.newBuilder(URIModifier.from(endpoint).appendPath("sparql").build())
+				.header("Content-Type", sparql_query.getContentTypeString())
+				.POST(BodyPublishers.ofString(query))
+				.build();
+			
+			var response = client.send(request, BodyHandlers.ofString());
+			if (response.statusCode() != 200) {
+				throw new Exception("Response = " + response.statusCode());
+			}
+			
+			return response.body();
 		}
-		
-		return response.body();
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 		
-	public String update(String update) throws Exception {
-		var request = HttpRequest
-			.newBuilder(URIModifier.from(endpoint).appendPath("sparql").build())
-			.header("Content-Type", sparql_update.getContentTypeString())
-			.POST(BodyPublishers.ofString(update))
-			.build();
-		
-		var response = client.send(request, BodyHandlers.ofString());
-		if (response.statusCode() != 200) {
-			throw new Exception("Response = " + response.statusCode());
+	public String update(String update) throws RuntimeException {
+		try {
+			var request = HttpRequest
+				.newBuilder(URIModifier.from(endpoint).appendPath("sparql").build())
+				.header("Content-Type", sparql_update.getContentTypeString())
+				.POST(BodyPublishers.ofString(update))
+				.build();
+			
+			var response = client.send(request, BodyHandlers.ofString());
+			if (response.statusCode() != 200) {
+				throw new Exception("Response = " + response.statusCode());
+			}
+			
+			return response.body();
 		}
-		
-		return response.body();
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
-	public String upload(File file, Stream<Link> links) throws Exception {
-		var fileExt = getExtension(file.getName().toLowerCase());
-		var contentType = MIMEMappings.CONTENT_TYPES.get(fileExt);
-		if (contentType == null) {
-			throw new Exception("Could not upload file with extension " + fileExt);
+	public String upload(File file, Stream<Link> links) throws RuntimeException {
+		try {
+			var fileExt = getExtension(file.getName().toLowerCase());
+			var contentType = MIMEMappings.CONTENT_TYPES.get(fileExt);
+			if (contentType == null) {
+				throw new Exception("Could not upload file with extension " + fileExt);
+			}
+			
+			// build file upload
+			var entity = MultipartEntityBuilder.create()
+		       .addPart("upload", new FileBody(file, ContentType.create(contentType, "UTF-8"), file.getName()))
+		       .build();
+	
+			var byteSink = new ByteArrayOutputStream();
+			entity.writeTo(byteSink);
+			byteSink.close();
+			
+			// build HTTP request
+			var request = HttpRequest
+				.newBuilder(URIModifier.from(endpoint).appendPath("upload").build())
+				.header("Content-Type", entity.getContentType().getValue())
+				.header("X-Custody-Chain", links.map(Link::toHeader).collect(joining("; ")))
+				.POST(BodyPublishers.ofByteArray(byteSink.toByteArray()))
+				.build();
+			
+			// send HTTP request
+			var response = client.send(request, BodyHandlers.ofString());
+			if (response.statusCode() != 200) {
+				throw new Exception("Response = " + response.statusCode());
+			}
+			
+			return response.body();
 		}
-		
-		// build file upload
-		var entity = MultipartEntityBuilder.create()
-	       .addPart("upload", new FileBody(file, ContentType.create(contentType, "UTF-8"), file.getName()))
-	       .build();
-
-		var byteSink = new ByteArrayOutputStream();
-		entity.writeTo(byteSink);
-		byteSink.close();
-		
-		// build HTTP request
-		var request = HttpRequest
-			.newBuilder(URIModifier.from(endpoint).appendPath("upload").build())
-			.header("Content-Type", entity.getContentType().getValue())
-			.header("X-Custody-Chain", links.map(Link::toHeader).collect(joining("; ")))
-			.POST(BodyPublishers.ofByteArray(byteSink.toByteArray()))
-			.build();
-		
-		// send HTTP request
-		var response = client.send(request, BodyHandlers.ofString());
-		if (response.statusCode() != 200) {
-			throw new Exception("Response = " + response.statusCode());
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		
-		return response.body();
+	}
+	
+	public String upload(String filename, String mimetype, Reader reader, Stream<Link> links) throws RuntimeException {
+		try {
+			// build file upload
+			var entity = MultipartEntityBuilder.create()				
+		       .addPart("upload", new ReaderFileBody(filename, ContentType.create(mimetype, "UTF-8"), reader))
+		       .build();
+	
+			var byteSink = new ByteArrayOutputStream();
+			entity.writeTo(byteSink);
+			byteSink.close();
+			
+			// build HTTP request
+			var request = HttpRequest
+				.newBuilder(URIModifier.from(endpoint).appendPath("upload").build())
+				.header("Content-Type", entity.getContentType().getValue())
+				.header("X-Custody-Chain", links.map(Link::toHeader).collect(joining("; ")))
+				.POST(BodyPublishers.ofByteArray(byteSink.toByteArray()))
+				.build();
+			
+			// send HTTP request
+			var response = client.send(request, BodyHandlers.ofString());
+			if (response.statusCode() != 200) {
+				throw new Exception("Response = " + response.statusCode());
+			}
+			
+			return response.body();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
