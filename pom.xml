@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.goodforgoodbusiness</groupId>
 		<artifactId>sccp</artifactId>
-		<version>0.1-SNAPSHOT</version>
+		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -16,22 +16,22 @@
 	<name>SCCP Utils</name>
 
 	<dependencies>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.goodforgoodbusiness</groupId>
 			<artifactId>dhtengine</artifactId>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
+			<version>0.2-SNAPSHOT</version>
+		</dependency> -->
 	
 		<dependency>
 			<groupId>org.goodforgoodbusiness</groupId>
 			<artifactId>rdfendpoint</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.goodforgoodbusiness</groupId>
 			<artifactId>shared</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
