@@ -1,8 +1,8 @@
 package com.goodforgoodbusiness.utils;
 
 import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
-import static com.goodforgoodbusiness.webapp.ContentType.sparql_query;
-import static com.goodforgoodbusiness.webapp.ContentType.sparql_update;
+import static com.goodforgoodbusiness.webapp.ContentType.SPARQL_QUERY;
+import static com.goodforgoodbusiness.webapp.ContentType.SPARQL_UPDATE;
 import static java.util.stream.Collectors.joining;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 
@@ -48,7 +48,7 @@ public class RDFClient {
 		try {
 			var request = HttpRequest
 				.newBuilder(URIModifier.from(endpoint).appendPath("sparql").build())
-				.header("Content-Type", sparql_query.getContentTypeString())
+				.header("Content-Type", SPARQL_QUERY.getContentTypeString())
 				.POST(BodyPublishers.ofString(query))
 				.build();
 			
@@ -68,7 +68,7 @@ public class RDFClient {
 		try {
 			var request = HttpRequest
 				.newBuilder(URIModifier.from(endpoint).appendPath("sparql").build())
-				.header("Content-Type", sparql_update.getContentTypeString())
+				.header("Content-Type", SPARQL_UPDATE.getContentTypeString())
 				.POST(BodyPublishers.ofString(update))
 				.build();
 			

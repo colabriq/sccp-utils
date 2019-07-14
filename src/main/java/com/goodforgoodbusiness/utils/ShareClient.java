@@ -23,7 +23,7 @@ public class ShareClient {
 		
 		var shareRequest = HttpRequest
 			.newBuilder(shareRequestBuilder.build())
-			.header("Content-Type", ContentType.json.getContentTypeString())
+			.header("Content-Type", ContentType.JSON.getContentTypeString())
 			.GET()
 			.build();
 		
@@ -40,7 +40,7 @@ public class ShareClient {
 		
 		var shareAcceptRequest = HttpRequest
 				.newBuilder(shareAcceptBuilder.build())
-				.header("Content-Type", ContentType.json.getContentTypeString())
+				.header("Content-Type", ContentType.JSON.getContentTypeString())
 				.POST(BodyPublishers.ofString(shareRequestResponse.body()))
 				.build();
 			
