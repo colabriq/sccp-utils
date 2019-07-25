@@ -21,7 +21,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 
-import com.goodforgoodbusiness.endpoint.MIMEMappings;
+import com.goodforgoodbusiness.endpoint.webapp.MIMEMappings;
 import com.goodforgoodbusiness.model.Link;
 import com.goodforgoodbusiness.shared.ReaderFileBody;
 import com.goodforgoodbusiness.shared.URIModifier;
