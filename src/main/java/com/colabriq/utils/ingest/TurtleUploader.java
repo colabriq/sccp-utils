@@ -1,4 +1,4 @@
-package com.goodforgoodbusiness.utils.ingest;
+package com.colabriq.utils.ingest;
 
 import static java.util.function.Predicate.not;
 
@@ -13,10 +13,10 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import com.goodforgoodbusiness.model.Link;
-import com.goodforgoodbusiness.shared.FileLoader;
-import com.goodforgoodbusiness.shared.treesort.TreeSort;
-import com.goodforgoodbusiness.utils.RDFClient;
+import com.colabriq.model.Link;
+import com.colabriq.shared.FileLoader;
+import com.colabriq.shared.treesort.TreeSort;
+import com.colabriq.utils.RDFClient;
 import com.google.gson.JsonParser;
 
 /**

@@ -1,8 +1,8 @@
-package com.goodforgoodbusiness.utils;
+package com.colabriq.utils;
 
-import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
-import static com.goodforgoodbusiness.webapp.ContentType.SPARQL_QUERY;
-import static com.goodforgoodbusiness.webapp.ContentType.SPARQL_UPDATE;
+import static com.colabriq.shared.ConfigLoader.loadConfig;
+import static com.colabriq.webapp.ContentType.SPARQL_QUERY;
+import static com.colabriq.webapp.ContentType.SPARQL_UPDATE;
 import static java.util.stream.Collectors.joining;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 
@@ -21,10 +21,10 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 
-import com.goodforgoodbusiness.endpoint.webapp.MIMEMappings;
-import com.goodforgoodbusiness.model.Link;
-import com.goodforgoodbusiness.shared.ReaderFileBody;
-import com.goodforgoodbusiness.shared.URIModifier;
+import com.colabriq.endpoint.webapp.MIMEMappings;
+import com.colabriq.model.Link;
+import com.colabriq.shared.ReaderFileBody;
+import com.colabriq.shared.URIModifier;
 
 public class RDFClient {
 	public static RDFClient fromConfig(Class<?> clazz, String configFile) throws Exception {

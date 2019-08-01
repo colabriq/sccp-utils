@@ -1,9 +1,9 @@
-package com.goodforgoodbusiness.utils.key;
+package com.colabriq.utils.key;
 
-import static com.goodforgoodbusiness.shared.ConfigLoader.loadConfig;
+import static com.colabriq.shared.ConfigLoader.loadConfig;
 
-import com.goodforgoodbusiness.kpabe.KPABEEncryption;
-import com.goodforgoodbusiness.kpabe.KPABEKeyManager;
+import com.colabriq.kpabe.KPABEEncryption;
+import com.colabriq.kpabe.KPABEKeyManager;
 
 public class GenShareKey {
 	public static void main(String[] args) throws Exception {

@@ -1,6 +1,6 @@
-package com.goodforgoodbusiness.utils.ingest;
+package com.colabriq.utils.ingest;
 
-import com.goodforgoodbusiness.model.Link.RelType;
+import com.colabriq.model.Link.RelType;
 
 class TurtleFileLink {
 	private final String filename;

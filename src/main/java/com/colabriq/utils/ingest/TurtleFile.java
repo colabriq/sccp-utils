@@ -1,10 +1,10 @@
-package com.goodforgoodbusiness.utils.ingest;
+package com.colabriq.utils.ingest;
 
 import java.io.File;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import com.goodforgoodbusiness.shared.treesort.TreeNode;
+import com.colabriq.shared.treesort.TreeNode;
 
 class TurtleFile implements TreeNode<String> {
 	private final File file;
