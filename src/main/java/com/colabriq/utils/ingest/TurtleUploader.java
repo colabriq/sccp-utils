@@ -97,7 +97,8 @@ public abstract class TurtleUploader {
 			System.out.println(" -> " + result);
 			
 			var jsonObject = jsonParser.parse(result).getAsJsonObject();
-			linkMap.put(next.getFile().getName(), jsonObject.get("id").getAsString());
+			
+			linkMap.put(next.getFile().getName(), jsonObject.get("inner_envelope").getAsJsonObject().get("hashkey").getAsString());
 		}
 	}
 }
